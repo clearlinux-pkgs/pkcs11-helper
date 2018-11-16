@@ -4,7 +4,7 @@
 #
 Name     : pkcs11-helper
 Version  : 1.22
-Release  : 3
+Release  : 4
 URL      : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.22/pkcs11-helper-1.22.tar.bz2
 Source0  : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.22/pkcs11-helper-1.22.tar.bz2
 Summary  : PKCS#11 helper library
