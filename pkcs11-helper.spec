@@ -4,14 +4,15 @@
 #
 Name     : pkcs11-helper
 Version  : 1.22
-Release  : 4
+Release  : 5
 URL      : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.22/pkcs11-helper-1.22.tar.bz2
 Source0  : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.22/pkcs11-helper-1.22.tar.bz2
 Summary  : PKCS#11 helper library
 Group    : Development/Tools
-License  : GPL-2.0
-Requires: pkcs11-helper-lib
-Requires: pkcs11-helper-doc
+License  : BSD-3-Clause GPL-2.0
+Requires: pkcs11-helper-lib = %{version}-%{release}
+Requires: pkcs11-helper-license = %{version}-%{release}
+Requires: pkcs11-helper-man = %{version}-%{release}
 BuildRequires : openssl-dev
 BuildRequires : pkgconfig(gnutls)
 BuildRequires : pkgconfig(libcrypto)
@@ -28,8 +29,8 @@ much more, all using a simple API.
 %package dev
 Summary: dev components for the pkcs11-helper package.
 Group: Development
-Requires: pkcs11-helper-lib
-Provides: pkcs11-helper-devel
+Requires: pkcs11-helper-lib = %{version}-%{release}
+Provides: pkcs11-helper-devel = %{version}-%{release}
 
 %description dev
 dev components for the pkcs11-helper package.
@@ -38,6 +39,7 @@ dev components for the pkcs11-helper package.
 %package doc
 Summary: doc components for the pkcs11-helper package.
 Group: Documentation
+Requires: pkcs11-helper-man = %{version}-%{release}
 
 %description doc
 doc components for the pkcs11-helper package.
@@ -46,9 +48,26 @@ doc components for the pkcs11-helper package.
 %package lib
 Summary: lib components for the pkcs11-helper package.
 Group: Libraries
+Requires: pkcs11-helper-license = %{version}-%{release}
 
 %description lib
 lib components for the pkcs11-helper package.
+
+
+%package license
+Summary: license components for the pkcs11-helper package.
+Group: Default
+
+%description license
+license components for the pkcs11-helper package.
+
+
+%package man
+Summary: man components for the pkcs11-helper package.
+Group: Default
+
+%description man
+man components for the pkcs11-helper package.
 
 
 %prep
@@ -59,9 +78,9 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1496170755
+export SOURCE_DATE_EPOCH=1542428188
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -71,8 +90,13 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1496170755
+export SOURCE_DATE_EPOCH=1542428188
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/pkcs11-helper
+cp COPYING %{buildroot}/usr/share/package-licenses/pkcs11-helper/COPYING
+cp COPYING.BSD %{buildroot}/usr/share/package-licenses/pkcs11-helper/COPYING.BSD
+cp COPYING.GPL %{buildroot}/usr/share/package-licenses/pkcs11-helper/COPYING.GPL
+cp distro/debian/copyright %{buildroot}/usr/share/package-licenses/pkcs11-helper/distro_debian_copyright
 %make_install
 
 %files
@@ -94,11 +118,21 @@ rm -rf %{buildroot}
 /usr/share/aclocal/*.m4
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc /usr/share/doc/pkcs11\-helper/*
-%doc /usr/share/man/man8/*
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libpkcs11-helper.so.1
 /usr/lib64/libpkcs11-helper.so.1.0.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/pkcs11-helper/COPYING
+/usr/share/package-licenses/pkcs11-helper/COPYING.BSD
+/usr/share/package-licenses/pkcs11-helper/COPYING.GPL
+/usr/share/package-licenses/pkcs11-helper/distro_debian_copyright
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man8/pkcs11-helper-1.8
