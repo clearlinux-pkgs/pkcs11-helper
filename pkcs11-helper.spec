@@ -4,7 +4,7 @@
 #
 Name     : pkcs11-helper
 Version  : 1.25.1
-Release  : 7
+Release  : 8
 URL      : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.25.1/pkcs11-helper-1.25.1.tar.bz2
 Source0  : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.25.1/pkcs11-helper-1.25.1.tar.bz2
 Summary  : PKCS#11 helper library
@@ -31,6 +31,7 @@ Summary: dev components for the pkcs11-helper package.
 Group: Development
 Requires: pkcs11-helper-lib = %{version}-%{release}
 Provides: pkcs11-helper-devel = %{version}-%{release}
+Requires: pkcs11-helper = %{version}-%{release}
 
 %description dev
 dev components for the pkcs11-helper package.
@@ -72,31 +73,40 @@ man components for the pkcs11-helper package.
 
 %prep
 %setup -q -n pkcs11-helper-1.25.1
+cd %{_builddir}/pkcs11-helper-1.25.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1542707752
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604353922
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1542707752
+export SOURCE_DATE_EPOCH=1604353922
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pkcs11-helper
-cp COPYING %{buildroot}/usr/share/package-licenses/pkcs11-helper/COPYING
-cp COPYING.BSD %{buildroot}/usr/share/package-licenses/pkcs11-helper/COPYING.BSD
-cp COPYING.GPL %{buildroot}/usr/share/package-licenses/pkcs11-helper/COPYING.GPL
-cp distro/debian/copyright %{buildroot}/usr/share/package-licenses/pkcs11-helper/distro_debian_copyright
+cp %{_builddir}/pkcs11-helper-1.25.1/COPYING %{buildroot}/usr/share/package-licenses/pkcs11-helper/cd2cbb12b3b9e8d38503591ede835d70de9a3b08
+cp %{_builddir}/pkcs11-helper-1.25.1/COPYING.BSD %{buildroot}/usr/share/package-licenses/pkcs11-helper/43ded7db4128951bf7f85fa4b56da2fe822f8eb7
+cp %{_builddir}/pkcs11-helper-1.25.1/COPYING.GPL %{buildroot}/usr/share/package-licenses/pkcs11-helper/bd040aef1740f62ce7275c20b40e0d87811d80f6
+cp %{_builddir}/pkcs11-helper-1.25.1/distro/debian/copyright %{buildroot}/usr/share/package-licenses/pkcs11-helper/370f4923a0ff14d216752b3699c5ccd2cd4a34b1
 %make_install
 
 %files
@@ -128,10 +138,10 @@ cp distro/debian/copyright %{buildroot}/usr/share/package-licenses/pkcs11-helper
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pkcs11-helper/COPYING
-/usr/share/package-licenses/pkcs11-helper/COPYING.BSD
-/usr/share/package-licenses/pkcs11-helper/COPYING.GPL
-/usr/share/package-licenses/pkcs11-helper/distro_debian_copyright
+/usr/share/package-licenses/pkcs11-helper/370f4923a0ff14d216752b3699c5ccd2cd4a34b1
+/usr/share/package-licenses/pkcs11-helper/43ded7db4128951bf7f85fa4b56da2fe822f8eb7
+/usr/share/package-licenses/pkcs11-helper/bd040aef1740f62ce7275c20b40e0d87811d80f6
+/usr/share/package-licenses/pkcs11-helper/cd2cbb12b3b9e8d38503591ede835d70de9a3b08
 
 %files man
 %defattr(0644,root,root,0755)
