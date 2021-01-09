@@ -4,7 +4,7 @@
 #
 Name     : pkcs11-helper
 Version  : 1.25.1
-Release  : 8
+Release  : 9
 URL      : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.25.1/pkcs11-helper-1.25.1.tar.bz2
 Source0  : https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.25.1/pkcs11-helper-1.25.1.tar.bz2
 Summary  : PKCS#11 helper library
@@ -18,6 +18,7 @@ BuildRequires : pkgconfig(gnutls)
 BuildRequires : pkgconfig(libcrypto)
 BuildRequires : pkgconfig(nss)
 BuildRequires : pkgconfig(openssl)
+Patch1: 0001-Add-Require-to-pkcs11-helper-on-gnutls-libcrypto.patch
 
 %description
 The pkcs11-helper library allows using multiple PKCS#11 providers at
@@ -74,13 +75,14 @@ man components for the pkcs11-helper package.
 %prep
 %setup -q -n pkcs11-helper-1.25.1
 cd %{_builddir}/pkcs11-helper-1.25.1
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1604353922
+export SOURCE_DATE_EPOCH=1610150998
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -100,7 +102,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1604353922
+export SOURCE_DATE_EPOCH=1610150998
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pkcs11-helper
 cp %{_builddir}/pkcs11-helper-1.25.1/COPYING %{buildroot}/usr/share/package-licenses/pkcs11-helper/cd2cbb12b3b9e8d38503591ede835d70de9a3b08
