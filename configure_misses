@@ -1,8 +1,8 @@
-Configure miss: windres
-Configure miss: mbedtls_x509_crt_init in -lmbedtls
-Configure miss: x509_crt_parse in -lpolarssl
-Configure miss: stdargs.h usability
-Configure miss: stdargs.h presence
-Configure miss: stdargs.h
 Configure miss: Win32 crypto engine
 Configure miss: mbed TLS crypto engine
+Configure miss: mbedtls_x509_crt_init in -lmbedtls
+Configure miss: stdargs.h
+Configure miss: stdargs.h presence
+Configure miss: stdargs.h usability
+Configure miss: windres
+Configure miss: x509_crt_parse in -lpolarssl

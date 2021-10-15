@@ -1,1 +1,2 @@
 0001-Add-Require-to-pkcs11-helper-on-gnutls-libcrypto.patch
+0002-nss-use-nss-pkcs11.h.patch

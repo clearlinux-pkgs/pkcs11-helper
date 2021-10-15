@@ -1,4 +1,4 @@
-From 34f6e5bff6023569d18f34113da546233a9674d7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Karthik Prabhu Vinod <karthik.prabhu.vinod@intel.com>
 Date: Fri, 8 Jan 2021 15:39:57 -0800
 Subject: [PATCH] Add Require to pkcs11-helper on gnutls & libcrypto
@@ -19,6 +19,3 @@ index c090800..491d5f0 100644
 +Requires: libcrypto gnutls
  Cflags: -I${includedir}
  Libs: @LIBS@ -L${libdir} -lpkcs11-helper
--- 
-2.30.0
-
